@@ -1053,16 +1053,20 @@ function get_config_dir() {
     if [ -d "${CONFIG_DIR}" ]; then
         INFO "读取配置目录中..."
         # 将所有小雅配置文件修正成 linux 格式
+        DEBUG "修正配置文件中...."
         if [[ "${OSNAME}" = "macos" ]]; then
             find ${CONFIG_DIR} -maxdepth 1 -type f -name "*.txt" -exec sed -i '' "s/\r$//g" {} \;
         else
             find ${CONFIG_DIR} -maxdepth 1 -type f -name "*.txt" -exec sed -i "s/\r$//g" {} \;
         fi
+        DEBUG "修正配置文件完成"
         # 设置权限
+        DEBUG "设置权限中..."
         find ${CONFIG_DIR} -maxdepth 1 -type f -exec chmod 777 {} \;
         if [ -n "${GLOBAL_PUID}" ] && [ -n "${GLOBAL_PGID}" ]; then
             find ${CONFIG_DIR} -maxdepth 1 -type f -exec chown "${GLOBAL_PUID}":"${GLOBAL_PGID}" {} \;
         fi
+        DEBUG "设置权限完成"
     fi
 
 }
